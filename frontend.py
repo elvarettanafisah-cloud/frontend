@@ -527,6 +527,7 @@ def render_personal_recommendations_page(jmi: JobMarketIntelligence, selected_co
             if career_goal == "Other":
                 career_goal = st.text_input("📝 Specify your target role")
         submitted = st.form_submit_button("🎯 Get Recommendations", use_container_width=True)
+        
     if submitted and current_skills:
         skill_list = [s.strip() for s in current_skills.split(',')]
         with st.spinner("📊 Analyzing market data..."):
@@ -534,16 +535,15 @@ def render_personal_recommendations_page(jmi: JobMarketIntelligence, selected_co
                 recommendations = jmi.recommend_skills(skill_list, career_goal if career_goal != "Other" else None, target_country if target_country != "All" else None, n=10)
                 if len(recommendations) > 0:
                     for i, (_, row) in enumerate(recommendations.iterrows(), 1):
-                        score = row['demand_score']
                         if i == 1:
-                            st.markdown(f'<div class="highlight-card"><h2>🏆 #{i}</h2><h1 style="font-size: 1.8rem; color: white;">{row["skill"]}</h1><div style="color: white;">🔥 Demand Score: <strong>{score}/10</strong></div><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
+                            st.markdown(f'<div class="highlight-card"><h2>🏆 #{i}</h2><h1 style="font-size: 1.8rem; color: white;">{row["skill"]}</h1><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
                         elif i == 2:
-                            st.markdown(f'<div class="highlight-card" style="background: linear-gradient(135deg, #FF8C42 0%, #FFA559 100%);"><h3 style="color: white;">🥈 #{i}</h3><h2 style="font-size: 1.7rem; color: white;">{row["skill"]}</h2><div style="color: white;">📈 Demand Score: <strong>{score}/10</strong></div><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
+                            st.markdown(f'<div class="highlight-card" style="background: linear-gradient(135deg, #FF8C42 0%, #FFA559 100%);"><h3 style="color: white;">🥈 #{i}</h3><h2 style="font-size: 1.7rem; color: white;">{row["skill"]}</h2><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
                         elif i == 3:
-                            st.markdown(f'<div class="highlight-card" style="background: linear-gradient(135deg, #F4A261 0%, #F6B17A 100%);"><h3 style="color: white;">🥉 #{i}</h3><h2 style="font-size: 1.7rem; color: white;">{row["skill"]}</h2><div style="color: white;">⭐ Demand Score: <strong>{score}/10</strong></div><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
+                            st.markdown(f'<div class="highlight-card" style="background: linear-gradient(135deg, #F4A261 0%, #F6B17A 100%);"><h3 style="color: white;">🥉 #{i}</h3><h2 style="font-size: 1.7rem; color: white;">{row["skill"]}</h2><div style="color: white;">💡 {row["reasons"]}</div></div>', unsafe_allow_html=True)
                         else:
-                            st.markdown(f'<div class="skill-card"><strong>#{i} {row["skill"]}</strong> — Demand Score: {score}/10<br>💡 {row["reasons"]}</div>', unsafe_allow_html=True)
-                    render_insight_box(f"Start with **{recommendations.iloc[0]['skill']}** — it has the highest demand score!")
+                            st.markdown(f'<div class="skill-card"><strong>#{i} {row["skill"]}</strong><br>💡 {row["reasons"]}</div>', unsafe_allow_html=True)
+                    render_insight_box(f"Start with **{recommendations.iloc[0]['skill']}** — it has the highest demand!")
                 else:
                     st.info("📭 No recommendations found.")
             except AttributeError:
