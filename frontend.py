@@ -819,7 +819,7 @@ def render_skill_analysis_page(jmi: JobMarketIntelligence, selected_country: str
 
 def render_skill_gaps_page(jmi: JobMarketIntelligence, selected_country: str, selected_skill_type: str):
     st.markdown('<h1 class="main-header">🎯 <span class="gradient-text">Skill Gap Analysis</span></h1>', unsafe_allow_html=True)
-    st.markdown('<div style="color: var(--text-color);">*Skills that are in high demand but low supply*</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color: var(--text-color);">Skills that are in high demand but low supply</div>', unsafe_allow_html=True)
     gaps = jmi.get_skill_gap(selected_skill_type, 15)
     if len(gaps) > 0:
         for _, row in gaps.iterrows():
@@ -831,7 +831,7 @@ def render_skill_gaps_page(jmi: JobMarketIntelligence, selected_country: str, se
             </div>
             """, unsafe_allow_html=True)
         top_skill = gaps.iloc[0]['skill']
-        render_insight_box(f"**{top_skill}** has the biggest gap with {gaps.iloc[0]['gap']:,} more developers wanting to learn it!")
+        render_insight_box(f"{top_skill} has the biggest gap with {gaps.iloc[0]['gap']:,} more developers wanting to learn it!")
     else:
         st.info("No skill gaps found")
 
@@ -839,7 +839,7 @@ def render_skill_gaps_page(jmi: JobMarketIntelligence, selected_country: str, se
 
 def render_emerging_skills_page(jmi: JobMarketIntelligence, selected_country: str, selected_skill_type: str):
     st.markdown('<h1 class="main-header">🚀 <span class="gradient-text">Emerging Skills</span></h1>', unsafe_allow_html=True)
-    st.markdown('<div style="color: var(--text-color);">*Skills with highest demand ratio - Select a skill to see the graph*</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color: var(--text-color);">Skills with highest demand ratio - Select a skill to see the graph</div>', unsafe_allow_html=True)
     emerging = jmi.get_emerging_skills(selected_skill_type, 15)
     if len(emerging) > 0:
         col1, col2 = st.columns([1, 1])
@@ -877,7 +877,7 @@ def render_emerging_skills_page(jmi: JobMarketIntelligence, selected_country: st
 
 def render_hiring_priorities_page(jmi: JobMarketIntelligence, selected_country: str, selected_skill_type: str):
     st.markdown('<h1 class="main-header">⭐ <span class="gradient-text">Hiring Priorities</span></h1>', unsafe_allow_html=True)
-    st.markdown('<div style="color: var(--text-color);">*What employers value most when hiring*</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color: var(--text-color);">What employers value most when hiring</div>', unsafe_allow_html=True)
     country_for_hiring = selected_country if selected_country != 'All' else None
     priorities = jmi.get_hiring_priorities(country_for_hiring)
     if not priorities.empty:
